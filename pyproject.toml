@@ -1,0 +1,82 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "swf-processing-agent"
+version = "0.1.0"
+description = "PanDA processing agent for the ePIC streaming workflow testbed"
+readme = "README.md"
+license = {text = "MIT"}
+authors = [
+    {name = "BNL NPPS Group", email = "wenaus@bnl.gov"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering :: Physics",
+]
+requires-python = ">=3.9"
+dependencies = [
+    "swf-common-lib",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest>=6.0",
+    "pytest-cov",
+    "pytest-mock",
+]
+
+[project.urls]
+Homepage = "https://github.com/BNLNPPS/swf-processing-agent"
+Repository = "https://github.com/BNLNPPS/swf-processing-agent"
+Documentation = "https://github.com/BNLNPPS/swf-processing-agent#readme"
+Issues = "https://github.com/BNLNPPS/swf-processing-agent/issues"
+
+[project.scripts]
+swf-processing-agent = "swf_processing_agent.main:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-dir]
+"" = "src"
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-ra -q --strict-markers"
+testpaths = [
+    "tests",
+]
+python_files = [
+    "test_*.py",
+    "*_test.py",
+]
+python_classes = [
+    "Test*",
+]
+python_functions = [
+    "test_*",
+]
+
+[tool.coverage.run]
+source = ["src"]
+omit = [
+    "tests/*",
+    "*/tests/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
