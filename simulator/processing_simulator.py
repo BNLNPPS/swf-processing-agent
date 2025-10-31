@@ -52,7 +52,7 @@ if top_directory not in sys.path:
 else:
     if verbose: print(f'''*** {top_directory} is already in sys.path ***''')
 
-print(sys.path)
+# print(sys.path)
 
 from processing import *
 
