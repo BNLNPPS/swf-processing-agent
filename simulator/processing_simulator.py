@@ -14,9 +14,11 @@ from    sys     import exit
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-v", "--verbose",  action='store_true',    help="Verbose mode")
+parser.add_argument("-t", "--test",     action='store_true',    help="Test mode")
 
 args        = parser.parse_args()
 verbose     = args.verbose
+test        = args.test
 
 if verbose:
     print(f'''*** {'Verbose mode            ':<20} {verbose:>20} ***''')
@@ -57,6 +59,10 @@ else:
 from processing import *
 
 processing = PROCESSING(verbose=verbose)
+
+if test:
+    processing.test_panda()
+    exit(0)
 
 processing.run()
 
