@@ -46,7 +46,7 @@ current_path = Path(__file__).resolve()
 
 # Get the directory above one containing the current file
 top_directory = current_path.parent.parent
-print(f"Top directory: {top_directory}")
+if verbose: print(f"*** Top directory: {top_directory} ***")
 
 if top_directory not in sys.path:
     sys.path.append(str(top_directory))
