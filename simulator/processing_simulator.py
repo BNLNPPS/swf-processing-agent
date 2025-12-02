@@ -6,16 +6,19 @@ This is the driver script for the processing simulator.
 It initializes the PROCESSING class and starts the task management process.
 '''
 
-import os, argparse, datetime, sys
-from   sys import exit
+import  os, argparse, datetime, sys
+from    pathlib import Path
+from    sys     import exit
 
 # ---
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-v", "--verbose",  action='store_true',    help="Verbose mode")
+parser.add_argument("-t", "--test",     action='store_true',    help="Test mode")
 
 args        = parser.parse_args()
 verbose     = args.verbose
+test        = args.test
 
 if verbose:
     print(f'''*** {'Verbose mode            ':<20} {verbose:>20} ***''')
@@ -37,9 +40,36 @@ except:
     if verbose: print('*** The variable SWF_COMMON_LIB_PATH is undefined, will rely on PYTHONPATH ***')
 
 
-# import utils
-from utils import *
-from utils.environment import tst
 
-tst()
+# Get the absolute path of the current file
+current_path = Path(__file__).resolve()
 
+# Get the directory above one containing the current file
+top_directory = current_path.parent.parent
+if verbose: print(f"*** Top directory: {top_directory} ***")
+
+if top_directory not in sys.path:
+    sys.path.append(str(top_directory))
+    if verbose: print(f'''*** Added {top_directory} to sys.path ***''')
+else:
+    if verbose: print(f'''*** {top_directory} is already in sys.path ***''')
+
+# print(sys.path)
+
+from processing import *
+
+processing = PROCESSING(verbose=verbose)
+
+if test:
+    processing.test_panda()
+    exit(0)
+
+processing.run()
+
+exit(0)
+
+#############################################
+# --- possible future development
+# from utils import *
+# from utils.environment import tst
+# tst()
