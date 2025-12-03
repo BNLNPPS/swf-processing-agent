@@ -10,18 +10,27 @@ import  os, argparse, datetime, sys
 from    pathlib import Path
 from    sys     import exit
 
+
+# test case for inputDS: group.daq:swf.101871.run
 # ---
 parser = argparse.ArgumentParser()
 
 parser.add_argument("-v", "--verbose",  action='store_true',    help="Verbose mode")
 parser.add_argument("-t", "--test",     action='store_true',    help="Test mode")
+parser.add_argument("-i", "--inDS",     type=str,               help='Input dataset (if testing standalone)', default='')
+parser.add_argument("-o", "--outDS",    type=str,               help='Output dataset (if testing standalone)', default='user.potekhin.test1')
 
 args        = parser.parse_args()
 verbose     = args.verbose
 test        = args.test
+inDS        = args.inDS
+outDS       = args.outDS
 
 if verbose:
-    print(f'''*** {'Verbose mode            ':<20} {verbose:>20} ***''')
+    print(f'''*** {'Verbose mode            ':<20} {verbose:>25} ***''')
+    print(f'''*** {'Test mode               ':<20} {test:>25} ***''')
+    if inDS != '':
+        print(f'''*** {'inDS (for testing)     ':<20} {inDS:>25} ***''')
 
 # ---
 try:
@@ -56,17 +65,21 @@ else:
 
 # print(sys.path)
 
+# exit(0)
+
 from processing import *
 
 processing = PROCESSING(verbose=verbose)
 
-if test:
-    processing.test_panda()
+if inDS != '':
+    processing.test_panda(inDS, outDS)
     exit(0)
+
+exit(0)
 
 processing.run()
 
-exit(0)
+
 
 #############################################
 # --- possible future development
