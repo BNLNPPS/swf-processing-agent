@@ -6,7 +6,7 @@ This is the driver script for the processing simulator.
 It initializes the PROCESSING class and starts the task management process.
 '''
 
-import  os, argparse, datetime, sys
+import  os, argparse, datetime, sys, shutil
 from    pathlib import Path
 from    sys     import exit
 
@@ -25,6 +25,8 @@ if '/direct/eic+u' in default_script:
     default_script = default_script.replace('/direct/eic+u', '/eic/u')
 
 
+# Copy file from source path to current directory
+shutil.copy(default_script, './payload.sh')
 
 # ---
 parser = argparse.ArgumentParser()
@@ -78,16 +80,12 @@ if top_directory not in sys.path:
 else:
     if verbose: print(f'''*** {top_directory} is already in sys.path ***''')
 
-# print(sys.path)
-
-# exit(0)
-
 from processing import *
 
 processing = PROCESSING(verbose=verbose)
 
 if inDS != '':
-    processing.test_panda(inDS, outDS, script)
+    processing.test_panda(inDS, outDS, "myout.txt")
     exit(0)
 
 exit(0)
