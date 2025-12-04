@@ -12,6 +12,20 @@ from    sys     import exit
 
 
 # test case for inputDS: group.daq:swf.101871.run
+
+# Get the absolute path of the current file
+current_path = Path(__file__).resolve()
+
+
+# Get the directory above one containing the current file
+top_directory = current_path.parent.parent
+default_script = str(top_directory / 'processing' / 'my_script.sh')
+
+if '/direct/eic+u' in default_script:
+    default_script = default_script.replace('/direct/eic+u', '/eic/u')
+
+
+
 # ---
 parser = argparse.ArgumentParser()
 
@@ -19,12 +33,15 @@ parser.add_argument("-v", "--verbose",  action='store_true',    help="Verbose mo
 parser.add_argument("-t", "--test",     action='store_true',    help="Test mode")
 parser.add_argument("-i", "--inDS",     type=str,               help='Input dataset (if testing standalone)', default='')
 parser.add_argument("-o", "--outDS",    type=str,               help='Output dataset (if testing standalone)', default='user.potekhin.test1')
+parser.add_argument("-s", "--script",   type=str,               help='Payload script', default=default_script)
+
 
 args        = parser.parse_args()
 verbose     = args.verbose
 test        = args.test
 inDS        = args.inDS
 outDS       = args.outDS
+script      = args.script
 
 if verbose:
     print(f'''*** {'Verbose mode            ':<20} {verbose:>25} ***''')
@@ -49,13 +66,11 @@ except:
     if verbose: print('*** The variable SWF_COMMON_LIB_PATH is undefined, will rely on PYTHONPATH ***')
 
 
+if verbose:
+    print(f"*** Top directory: {top_directory} ***")
+    print(f"*** Test script path: {script} ***")
 
-# Get the absolute path of the current file
-current_path = Path(__file__).resolve()
-
-# Get the directory above one containing the current file
-top_directory = current_path.parent.parent
-if verbose: print(f"*** Top directory: {top_directory} ***")
+# exit(0)
 
 if top_directory not in sys.path:
     sys.path.append(str(top_directory))
@@ -72,7 +87,7 @@ from processing import *
 processing = PROCESSING(verbose=verbose)
 
 if inDS != '':
-    processing.test_panda(inDS, outDS)
+    processing.test_panda(inDS, outDS, script)
     exit(0)
 
 exit(0)
