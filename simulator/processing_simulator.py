@@ -1,6 +1,6 @@
 #! /usr/bin/env python
-
 #############################################
+
 '''
 This is the driver script for the processing simulator.
 It initializes the PROCESSING class and starts the task management process.
@@ -10,8 +10,7 @@ import  os, argparse, datetime, sys, shutil
 from    pathlib import Path
 from    sys     import exit
 
-
-# test case for inputDS: group.daq:swf.101871.run
+# Example of inputDS for the static test: group.daq:swf.101871.run
 
 # Get the absolute path of the current file
 current_path = Path(__file__).resolve()
@@ -21,6 +20,7 @@ current_path = Path(__file__).resolve()
 top_directory = current_path.parent.parent
 default_script = str(top_directory / 'processing' / 'my_script.sh')
 
+# Fix the peculiarity of the path in the testbed environment
 if '/direct/eic+u' in default_script:
     default_script = default_script.replace('/direct/eic+u', '/eic/u')
 
@@ -84,7 +84,8 @@ from processing import *
 
 processing = PROCESSING(verbose=verbose)
 
-if inDS != '':
+if inDS != '': # Static test mode, with a provided input dataset
+    if verbose: print(f'''*** Running in the static test mode with inDS: {inDS}, outDS: {outDS} ***''')
     processing.test_panda(inDS, outDS, "myout.txt")
     exit(0)
 
