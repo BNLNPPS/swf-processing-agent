@@ -48,14 +48,12 @@ script      = args.script
 if verbose:
     print(f'''*** {'Verbose mode            ':<20} {verbose:>25} ***''')
     print(f'''*** {'Test mode               ':<20} {test:>25} ***''')
-    if inDS != '':
-        print(f'''*** {'inDS (for testing)     ':<20} {inDS:>25} ***''')
+    if inDS != '': print(f'''*** {'inDS (for static testing)     ':<20} {inDS:>25} ***''')
 
 # ---
 try:
     SWF_COMMON_LIB_PATH = os.environ['SWF_COMMON_LIB_PATH']
-    if verbose:
-        print(f'''*** The SWF_COMMON_LIB_PATH is defined in the environment: {SWF_COMMON_LIB_PATH}, will be added to sys.path ***''')
+    if verbose: print(f'''*** The SWF_COMMON_LIB_PATH is defined in the environment: {SWF_COMMON_LIB_PATH}, will be added to sys.path ***''')
 
     if SWF_COMMON_LIB_PATH not in sys.path: sys.path.append(SWF_COMMON_LIB_PATH)
     src_path = SWF_COMMON_LIB_PATH + '/src/swf_common_lib'
@@ -80,19 +78,20 @@ if top_directory not in sys.path:
 else:
     if verbose: print(f'''*** {top_directory} is already in sys.path ***''')
 
+# Initialize processing class
 from processing import *
 
-processing = PROCESSING(verbose=verbose)
+processing = PROCESSING(verbose=verbose, test=test)
 
 if inDS != '': # Static test mode, with a provided input dataset
     if verbose: print(f'''*** Running in the static test mode with inDS: {inDS}, outDS: {outDS} ***''')
     processing.test_panda(inDS, outDS, "myout.txt")
     exit(0)
 
-exit(0)
+
 
 processing.run()
-
+exit(0)
 
 
 #############################################
