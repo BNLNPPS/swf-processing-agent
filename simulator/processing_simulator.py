@@ -17,15 +17,15 @@ current_path = Path(__file__).resolve()
 
 
 # Get the directory above one containing the current file
-top_directory = current_path.parent.parent
-default_script = str(top_directory / 'processing' / 'my_script.sh')
+top_directory   = current_path.parent.parent
+
+# The default script path; note that any script will be copied to "payload.sh" and only then executed.
+default_script  = str(top_directory / 'processing' / 'my_script.sh')
 
 # Fix the peculiarity of the path in the testbed environment
-if '/direct/eic+u' in default_script:
-    default_script = default_script.replace('/direct/eic+u', '/eic/u')
+if '/direct/eic+u' in default_script: default_script = default_script.replace('/direct/eic+u', '/eic/u')
 
-
-# Copy file from source path to current directory
+# Copy the payload script from source path to current directory
 shutil.copy(default_script, './payload.sh')
 
 # ---
@@ -33,7 +33,7 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument("-v", "--verbose",  action='store_true',    help="Verbose mode")
 parser.add_argument("-t", "--test",     action='store_true',    help="Test mode")
-parser.add_argument("-i", "--inDS",     type=str,               help='Input dataset (if testing standalone)', default='')
+parser.add_argument("-i", "--inDS",     type=str,               help='Input dataset (if testing standalone)',  default='')
 parser.add_argument("-o", "--outDS",    type=str,               help='Output dataset (if testing standalone)', default='user.potekhin.test1')
 parser.add_argument("-s", "--script",   type=str,               help='Payload script', default=default_script)
 
@@ -48,7 +48,10 @@ script      = args.script
 if verbose:
     print(f'''*** {'Verbose mode            ':<20} {verbose:>25} ***''')
     print(f'''*** {'Test mode               ':<20} {test:>25} ***''')
-    if inDS != '': print(f'''*** {'inDS (for static testing)     ':<20} {inDS:>25} ***''')
+    if inDS == '':
+        print("*** No input dataset provided, test mode is dynamic, using upstream data ***")
+    else:
+        print(f'''*** {'inDS (for static testing)     ':<20} {inDS:>25} ***''')
 
 # ---
 try:
