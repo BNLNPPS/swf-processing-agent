@@ -70,7 +70,7 @@ except:
 
 
 if verbose:
-    print(f"*** Top directory: {top_directory} ***")
+    print(f"*** Top directory:    {top_directory} ***")
     print(f"*** Test script path: {script} ***")
 
 # exit(0)
