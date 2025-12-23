@@ -146,7 +146,7 @@ class PROCESSING:
         "--workingGroup", "EIC",
         "--noBuild",
         "--expertOnly_skipScout",
-        "--outputs", "myout.*.txt"
+        "--outputs", "myout.txt"
         ]
         #  Call PrunScript.main to get the task parameters dictionary
         try:

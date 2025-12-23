@@ -1,3 +1,7 @@
 #!/bin/bash
-echo 'test 2' > myout.txt
+hostname > myout.txt
+date >> myout.txt
+echo "Script executed successfully." >> myout.txt
+exit 0
+
 
