@@ -140,6 +140,7 @@ class PROCESSING:
         "--inDS",   f"group.daq:{self.inDS}",
         "--outDS",  f"user.potekhin.{self.outDS}",
         "--nJobs", "1",
+        "--nFilesPerJob", "1",
         "--vo", "wlcg",
         "--site", "E1_BNL",
         "--prodSourceLabel", "test",
