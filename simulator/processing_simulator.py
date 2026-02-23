@@ -15,9 +15,11 @@ from    sys     import exit
 # Get the absolute path of the current file
 current_path = Path(__file__).resolve()
 
-
 # Get the directory above one containing the current file
 top_directory   = current_path.parent.parent
+
+# pandaclient expects to work in parent directory
+os.chdir(top_directory)
 
 # The default script path; note that any script will be copied to "payload.sh" and only then executed.
 default_script  = str(top_directory / 'processing' / 'my_script.sh')
